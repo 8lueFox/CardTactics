@@ -1,5 +1,7 @@
 ﻿import './Table.css'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { getStartingHandBlackJack } from './backend.js'
 import { styled } from '@mui/material/styles';
 import { Button, Grid, Paper } from '@mui/material';
 import Cards from './Cards'
@@ -13,8 +15,14 @@ const Item = styled(Paper)(({ theme }) => ({
     boxShadow: 'none'
 }));
 
-export const Table = () => {
-    var card = Cards.find(c => c.id = "10C")
+const Table = ({ blackJackTable, getStartingTable }) => {
+    useEffect(() => {
+        getStartingTable()
+    })
+    console.log(blackJackTable)
+    var card = Cards.find(c => c.id = "AH");
+    console.log(card)
+    console.log(Cards)
     return (
         <div id="TableContainer">
             <div className="CardsContainer">
@@ -42,7 +50,7 @@ export const Table = () => {
                         </Grid>
                         <Grid md={2}>
                             <Item>
-                                <img src={card.img} width='100px' />
+                                <img src={Cards.find(c => c.id = "reverse")} width='100px' />
                             </Item>
                         </Grid>
                     </Grid>
@@ -85,3 +93,15 @@ export const Table = () => {
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    blackJackTable: state.blackJackTable
+})
+
+const mapDisptachToProps = dispatch => ({
+    getStartingTable: () => dispatch(getStartingHandBlackJack())
+})
+
+export default connect(
+    mapStateToProps, mapDisptachToProps
+)(Table)
