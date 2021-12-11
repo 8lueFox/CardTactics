@@ -8,7 +8,7 @@ namespace CardTactics.API.Services.Impl
         #region public functions
         public BlackJackTable GetBlackJackStartingHand()
         {
-            return CheckBlackJackTable(new BlackJackTable());
+            return CheckBlackJackTableWinner(CheckBlackJackTable(new BlackJackTable()));
         }
 
         public BlackJackTable GetNextCard(BlackJackTable table, string forWho)
