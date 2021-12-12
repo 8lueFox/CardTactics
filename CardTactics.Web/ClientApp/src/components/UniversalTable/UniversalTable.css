@@ -1,0 +1,14 @@
+﻿#UniversalTable {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../img/image.png");
+    display: flex;
+}
+
+    #UniversalTable .gameName {
+        text-align: center;
+        color: white;
+        font-family: PokerKing, serif;
+        margin-top:2%;
+        font-size: 60px;
+    }

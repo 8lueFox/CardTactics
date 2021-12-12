@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getStartingHandBlackJack, getNextCardForPlayer, getNextCardForCroupier } from './backend.js'
 import { styled } from '@mui/material/styles';
 import { Button, Grid, Paper } from '@mui/material';
+import { UniversalTable } from './../UniversalTable/UniversalTable'
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -60,84 +61,91 @@ const Table = ({ blackJackTable, isRequestForNewCardForCroupierIsSended, isReque
         }
     }
 
-return (
-    <div id="TableContainer">
-        {standOption && checkCroupierCards()}
-        {!standOption && !isStartingTableIsFetching && checkPlayerCards()}
-        <div className="CardsContainer">
-            <Grid container spacing={6} xs={12} md={12}>
-                <Grid item xs={12} md={12} justifyContent="center">
-                    {<h1 id="WinnerIs"> {!standOption ? "In progress" : blackJackTable.winner === 1 ? "A winner is Croupier" : blackJackTable.winner === 2 ? "A winner is Player" : "Draw "}</h1>}
-                </Grid>
-                <Grid item xs={2} md={3} className="valueContainer">
-                    <h5>Value: {!standOption && blackJackTable.croupier.length > 0 ?
-                        blackJackTable.croupierSum -
-                        (blackJackTable.croupier[0].rank <= 10 ?
-                            blackJackTable.croupier[0].rank : 10) : blackJackTable.croupierSum}
-                    </h5>
-                </Grid>
-                <Grid item xs={6} md={6} id="GridCroupierCards">
-                    {blackJackTable.croupier.map((c, index) => (
-                        <Grid xs={6} md={2} key={index}>
-                            <Item>
-                                {index === 0 && blackJackTable.croupier.length === 2 && standOption == false ?
-                                    <img src={'cards/purple_back.png'} width="100px" alt="Back of card" /> :
-                                    resolveCardToImg(c)
-                                }
-                            </Item>
-                        </Grid>
-                    ))}
-                </Grid>
-                <Grid item xs={4} md={3}></Grid>
-                <Grid item xs={2} md={3} className="valueContainer">
-                    <h5>Value: {blackJackTable.playerSum}</h5>
-                </Grid>
-                <Grid item xs={6} md={6} id="GridCroupierCards">
-                    {blackJackTable.player.map((c, index) => (
-                        <Grid xs={6} md={2} key={index}>
-                            <Item>
-                                {resolveCardToImg(c)}
-                            </Item>
-                        </Grid>
-                    ))}
-                </Grid>
-                <Grid item xs={4} md={3}></Grid>
-            </Grid>
+    return (
+        <div>
+        <UniversalTable gameName="BlackJack">
+            {blackJackTable.Croupier}
+            {blackJackTable.Player}
+            </UniversalTable>
         </div>
-        <div className="ButtonContainer">
-            <Grid container spacing={2}>
-                <Grid item xs={4} md={3}></Grid>
-                <Grid xs={4} md={6} id="GridButtons">
-                    <Grid xs={4} md={2}>
-                        <Item>
-                            <Button variant="outlined" color="primary" onClick={getNextCard} disabled={standOption}>HIT</Button>
-                        </Item>
-                    </Grid>
-                    <Grid xs={4} md={2}>
-                        <Item>
-                            <Button variant="outlined" color="secondary" onClick={standOptionClicked} disabled={standOption}>STAND</Button>
-                        </Item>
-                    </Grid>
-                    <Grid xs={4} md={2}>
-                        <Item>
-                            <Button variant="outlined" color="info" disabled={standOption}>DOUBLE DOWN</Button>
-                        </Item>
-                    </Grid>
-                    <Grid xs={4} md={2}>
-                        <Item>
-                            <Button variant="outlined" color="error" disabled={standOption}>SPLIT</Button>
-                        </Item>
-                    </Grid>
-                    <Grid xs={4} md={2}>
-                        <Item>
-                            <Button variant="outlined" color="warning" disabled={standOption}>INSURANCE</Button>
-                        </Item>
-                    </Grid>
-                </Grid>
-                <Grid item xs={4} md={3}></Grid>
-            </Grid>
-        </div>
-    </div>
+
+    //<div id="TableContainer">
+    //    {standOption && checkCroupierCards()}
+    //    {!standOption && !isStartingTableIsFetching && checkPlayerCards()}
+    //    <div className="CardsContainer">
+    //        <Grid container spacing={6} xs={12} md={12}>
+    //            <Grid item xs={12} md={12} justifyContent="center">
+    //                {<h1 id="WinnerIs"> {!standOption ? "In progress" : blackJackTable.winner === 1 ? "A winner is Croupier" : blackJackTable.winner === 2 ? "A winner is Player" : "Draw "}</h1>}
+    //            </Grid>
+    //            <Grid item xs={2} md={3} className="valueContainer">
+    //                <h5>Value: {!standOption && blackJackTable.croupier.length > 0 ?
+    //                    blackJackTable.croupierSum -
+    //                    (blackJackTable.croupier[0].rank <= 10 ?
+    //                        blackJackTable.croupier[0].rank : 10) : blackJackTable.croupierSum}
+    //                </h5>
+    //            </Grid>
+    //            <Grid item xs={6} md={6} id="GridCroupierCards">
+    //                {blackJackTable.croupier.map((c, index) => (
+    //                    <Grid xs={6} md={2} key={index}>
+    //                        <Item>
+    //                            {index === 0 && blackJackTable.croupier.length === 2 && standOption == false ?
+    //                                <img src={'cards/purple_back.png'} width="100px" alt="Back of card" /> :
+    //                                resolveCardToImg(c)
+    //                            }
+    //                        </Item>
+    //                    </Grid>
+    //                ))}
+    //            </Grid>
+    //            <Grid item xs={4} md={3}></Grid>
+    //            <Grid item xs={2} md={3} className="valueContainer">
+    //                <h5>Value: {blackJackTable.playerSum}</h5>
+    //            </Grid>
+    //            <Grid item xs={6} md={6} id="GridCroupierCards">
+    //                {blackJackTable.player.map((c, index) => (
+    //                    <Grid xs={6} md={2} key={index}>
+    //                        <Item>
+    //                            {resolveCardToImg(c)}
+    //                        </Item>
+    //                    </Grid>
+    //                ))}
+    //            </Grid>
+    //            <Grid item xs={4} md={3}></Grid>
+    //        </Grid>
+    //    </div>
+    //    <div className="ButtonContainer">
+    //        <Grid container spacing={2}>
+    //            <Grid item xs={4} md={3}></Grid>
+    //            <Grid xs={4} md={6} id="GridButtons">
+    //                <Grid xs={4} md={2}>
+    //                    <Item>
+    //                        <Button variant="outlined" color="primary" onClick={getNextCard} disabled={standOption}>HIT</Button>
+    //                    </Item>
+    //                </Grid>
+    //                <Grid xs={4} md={2}>
+    //                    <Item>
+    //                        <Button variant="outlined" color="secondary" onClick={standOptionClicked} disabled={standOption}>STAND</Button>
+    //                    </Item>
+    //                </Grid>
+    //                <Grid xs={4} md={2}>
+    //                    <Item>
+    //                        <Button variant="outlined" color="info" disabled={standOption}>DOUBLE DOWN</Button>
+    //                    </Item>
+    //                </Grid>
+    //                <Grid xs={4} md={2}>
+    //                    <Item>
+    //                        <Button variant="outlined" color="error" disabled={standOption}>SPLIT</Button>
+    //                    </Item>
+    //                </Grid>
+    //                <Grid xs={4} md={2}>
+    //                    <Item>
+    //                        <Button variant="outlined" color="warning" disabled={standOption}>INSURANCE</Button>
+    //                    </Item>
+    //                </Grid>
+    ////            </Grid>
+    ////            <Grid item xs={4} md={3}></Grid>
+    ////        </Grid>
+    ////    </div>
+    ////</div>
 )
 }
 
