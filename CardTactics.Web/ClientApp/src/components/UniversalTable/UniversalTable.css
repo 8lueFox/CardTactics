@@ -3,6 +3,7 @@
     height: 100%;
     background-image: url("../../img/image.png");
     display: flex;
+    padding-bottom: 10%;
 }
 
     #UniversalTable .gameName {

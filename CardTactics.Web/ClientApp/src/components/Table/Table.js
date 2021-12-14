@@ -63,90 +63,70 @@ const Table = ({ blackJackTable, isRequestForNewCardForCroupierIsSended, isReque
 
     return (
         <div>
-        <UniversalTable gameName="BlackJack">
-            {blackJackTable.Croupier}
-            {blackJackTable.Player}
+            {standOption && checkCroupierCards()}
+            {!standOption && !isStartingTableIsFetching && checkPlayerCards()}
+            <UniversalTable gameName="BlackJack">
+                <Grid item xs={12} md={12} id="GridCroupierCards">
+                    <Grid xs={12} md={1}>
+                        {
+                            blackJackTable.croupier.length != 0 ?
+                            standOption ? "Croupier's card value: " + blackJackTable.croupierSum.toString() : "Croupier's card value: " + (blackJackTable.croupierSum - (blackJackTable.croupier[0].rank <= 10 ? blackJackTable.croupier[0].rank : 10)).toString()
+                            : ''
+                        }
+                    </Grid>
+                    <Grid xs={12} md={10} justifyContent="center" style={{ display: 'flex' }}>
+                        {blackJackTable.croupier.map((c, index) => (
+                            <Grid xs={2} md={1} key={index}>
+                                <Item>
+                                    {index === 0 && blackJackTable.croupier.length === 2 && standOption == false ?
+                                        <img src={'cards/purple_back.png'} width="100%" alt="Back of card" /> :
+                                        resolveCardToImg(c)
+                                    }
+                                </Item>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Grid xs={12} md={1}></Grid>
+                </Grid>
+                <Grid item xs={12} md={12} id="GridCroupierCards">
+                    {blackJackTable.player.map((c, index) => (
+                        <Grid xs={6} md={1} key={index}>
+                            <Item>
+                                {resolveCardToImg(c)}
+                            </Item>
+                        </Grid>
+                    ))}
+                </Grid>
+                <Grid xs={12} md={12} id="GridButtons">
+                    <Grid xs={4} md={1}>
+                        <Item>
+                            <Button variant="outlined" color="primary" onClick={getNextCard} disabled={standOption}>HIT</Button>
+                        </Item>
+                    </Grid>
+                    <Grid xs={4} md={1}>
+                        <Item>
+                            <Button variant="outlined" color="secondary" onClick={standOptionClicked} disabled={standOption}>STAND</Button>
+                        </Item>
+                    </Grid>
+                    <Grid xs={4} md={1}>
+                        <Item>
+                            <Button variant="outlined" color="info" disabled={standOption}>DOUBLE DOWN</Button>
+                        </Item>
+                    </Grid>
+                    <Grid xs={3} md={1}>
+                        <Item>
+                            <Button variant="outlined" color="error" disabled={standOption}>SPLIT</Button>
+                        </Item>
+                    </Grid>
+                    <Grid xs={3} md={1}>
+                        <Item>
+                            <Button variant="outlined" color="warning" disabled={standOption}>INSURANCE</Button>
+                        </Item>
+                    </Grid>
+                </Grid>
             </UniversalTable>
         </div>
-
-    //<div id="TableContainer">
-    //    {standOption && checkCroupierCards()}
-    //    {!standOption && !isStartingTableIsFetching && checkPlayerCards()}
-    //    <div className="CardsContainer">
-    //        <Grid container spacing={6} xs={12} md={12}>
-    //            <Grid item xs={12} md={12} justifyContent="center">
-    //                {<h1 id="WinnerIs"> {!standOption ? "In progress" : blackJackTable.winner === 1 ? "A winner is Croupier" : blackJackTable.winner === 2 ? "A winner is Player" : "Draw "}</h1>}
-    //            </Grid>
-    //            <Grid item xs={2} md={3} className="valueContainer">
-    //                <h5>Value: {!standOption && blackJackTable.croupier.length > 0 ?
-    //                    blackJackTable.croupierSum -
-    //                    (blackJackTable.croupier[0].rank <= 10 ?
-    //                        blackJackTable.croupier[0].rank : 10) : blackJackTable.croupierSum}
-    //                </h5>
-    //            </Grid>
-    //            <Grid item xs={6} md={6} id="GridCroupierCards">
-    //                {blackJackTable.croupier.map((c, index) => (
-    //                    <Grid xs={6} md={2} key={index}>
-    //                        <Item>
-    //                            {index === 0 && blackJackTable.croupier.length === 2 && standOption == false ?
-    //                                <img src={'cards/purple_back.png'} width="100px" alt="Back of card" /> :
-    //                                resolveCardToImg(c)
-    //                            }
-    //                        </Item>
-    //                    </Grid>
-    //                ))}
-    //            </Grid>
-    //            <Grid item xs={4} md={3}></Grid>
-    //            <Grid item xs={2} md={3} className="valueContainer">
-    //                <h5>Value: {blackJackTable.playerSum}</h5>
-    //            </Grid>
-    //            <Grid item xs={6} md={6} id="GridCroupierCards">
-    //                {blackJackTable.player.map((c, index) => (
-    //                    <Grid xs={6} md={2} key={index}>
-    //                        <Item>
-    //                            {resolveCardToImg(c)}
-    //                        </Item>
-    //                    </Grid>
-    //                ))}
-    //            </Grid>
-    //            <Grid item xs={4} md={3}></Grid>
-    //        </Grid>
-    //    </div>
-    //    <div className="ButtonContainer">
-    //        <Grid container spacing={2}>
-    //            <Grid item xs={4} md={3}></Grid>
-    //            <Grid xs={4} md={6} id="GridButtons">
-    //                <Grid xs={4} md={2}>
-    //                    <Item>
-    //                        <Button variant="outlined" color="primary" onClick={getNextCard} disabled={standOption}>HIT</Button>
-    //                    </Item>
-    //                </Grid>
-    //                <Grid xs={4} md={2}>
-    //                    <Item>
-    //                        <Button variant="outlined" color="secondary" onClick={standOptionClicked} disabled={standOption}>STAND</Button>
-    //                    </Item>
-    //                </Grid>
-    //                <Grid xs={4} md={2}>
-    //                    <Item>
-    //                        <Button variant="outlined" color="info" disabled={standOption}>DOUBLE DOWN</Button>
-    //                    </Item>
-    //                </Grid>
-    //                <Grid xs={4} md={2}>
-    //                    <Item>
-    //                        <Button variant="outlined" color="error" disabled={standOption}>SPLIT</Button>
-    //                    </Item>
-    //                </Grid>
-    //                <Grid xs={4} md={2}>
-    //                    <Item>
-    //                        <Button variant="outlined" color="warning" disabled={standOption}>INSURANCE</Button>
-    //                    </Item>
-    //                </Grid>
-    ////            </Grid>
-    ////            <Grid item xs={4} md={3}></Grid>
-    ////        </Grid>
-    ////    </div>
-    ////</div>
-)
+    )
 }
 
 const resolveCardToImg = (card) => {
@@ -183,7 +163,7 @@ const resolveCardToImg = (card) => {
             figure = 'S'
             break
     }
-    return <img src={'cards/' + rank + figure + '.png'} width="100px" alt={"card " + rank + " " + figure} />
+    return <img src={'cards/' + rank + figure + '.png'} width="100%" alt={"card " + rank + " " + figure} />
 }
 
 const mapStateToProps = (state) => ({

@@ -12,6 +12,18 @@ export const UniversalTable = (props) => {
                         {props.gameName}
                     </h1>
                 </Grid>
+
+                <Grid xs={12} md={12} justifyContent="center">
+                    {props.children[0]}
+                </Grid>
+
+                <Grid xs={12} md={12} justifyContent="center">
+                    {props.children[1]}
+                </Grid>
+
+                <Grid xs={12} md={12} justifyContent="center">
+                    {props.children[2]}
+                </Grid>
             </Grid>
         </div>
     )
